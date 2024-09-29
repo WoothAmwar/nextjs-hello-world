@@ -17,9 +17,9 @@ export default function MyComponent() {
       });
       const data = await response.json();
       if (response.ok) {
-        setMessage(`Success: ${data.message}`);
+        setMessage(`Success: ${data.status}`);
       } else {
-        setMessage(`Error: ${data.message}`);
+        setMessage(`Error: ${data.status}`);
       }
     } catch (error) {
       console.error('Error calling the API:', error);

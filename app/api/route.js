@@ -22,6 +22,7 @@ async function refresh_access_token(prev_refresh_token, manga_client_id, manga_c
             body: data,
         })
         if (!response.ok) {
+            console.log("DTA:", data);
             console.log("RES:", response);
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
