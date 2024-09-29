@@ -15,13 +15,18 @@ export function createClient() {
         },
         setAll(cookiesToSet) {
           try {
+            console.log('Cookies to set:', cookiesToSet) // Logging for debugging
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, { ...options, secure: true })
+              cookieStore.set(name, value, {
+                ...options,
+                secure: process.env.NODE_ENV === 'production', // Secure flag conditionally set
+                sameSite: options?.sameSite || 'Lax', // Default SameSite
+                path: options?.path || '/', // Default path
+                domain: process.env.NODE_ENV === 'production' ? 'malw-api.onrender.com/' : undefined, // Set domain in production
+              })
             )
-          } catch {
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+          } catch (error) {
+            console.error('Error setting cookies:', error)
           }
         },
       },
