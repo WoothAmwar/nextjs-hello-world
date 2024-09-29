@@ -19,7 +19,7 @@ export default function MyComponent() {
       if (response.ok) {
         setMessage(`Success: ${data.status}, Message: ${data.message}`);
       } else {
-        setMessage(`Error: ${data.status}, Message: ${data.message}`);
+        setMessage(`Error: ${data.status}, Message: ${data.message}, Full Info: ${data?.full_info}`);
       }
     } catch (error) {
       console.error('Error calling the API:', error);

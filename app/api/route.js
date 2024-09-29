@@ -227,7 +227,7 @@ export async function POST(req) {
     } catch (err) {
         // task failed, respond with 500 so Mergent will retry
         const task_message = "Would definitely do that";
-        return Response.json({ status: 500, message: err });
+        return Response.json({ status: 500, message: err?.message, full_info: Object.keys(err) });
     }
 }
 
