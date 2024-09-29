@@ -207,25 +207,27 @@ const filter_manga_info = (total_data) => {
 
 
 
-export async function GET(req) {
-    try {
-        await performTask(req);
-        // task was successful, respond with 200
-        return Response.json({ status: 200 });
-    } catch (err) {
-        // task failed, respond with 500 so Mergent will retry
-        return Response.json({ status: 500 });
-    }
-}
+// export async function GET(req) {
+//     try {
+//         await performTask(req);
+//         // task was successful, respond with 200
+//         return Response.json({ status: 200 });
+//     } catch (err) {
+//         // task failed, respond with 500 so Mergent will retry
+//         return Response.json({ status: 500 });
+//     }
+// }
 
 export async function POST(req) {
     try {
-        await performTask();
+        // const task_message = await performTask();
+        const task_message = "Would never do that";
         // task was successful, respond with 200
-        return Response.json({ status: 200 });
+        return Response.json({ status: 200, message: task_message });
     } catch (err) {
         // task failed, respond with 500 so Mergent will retry
-        return Response.json({ status: 500 });
+        const task_message = "Would definitely do that";
+        return Response.json({ status: 500, message: task_message });
     }
 }
 
@@ -279,7 +281,8 @@ async function performTask() {
     console.log("Unread mangas:", unread_manga_ids_filenames);
     console.log("Total Unread:", unread_manga_ids_filenames.length);
 
-    write_unread(unread_manga_ids_filenames);
+    await write_unread(unread_manga_ids_filenames);
 
-    console.log("Performing task: ", req.body);
+    // console.log("Performing task: ", req.body);
+    return "DID it ALL";
 }
