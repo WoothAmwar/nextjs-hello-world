@@ -148,9 +148,7 @@ async function get_unread_mangas(access_token, total_matched_manga) {
 
 async function write_unread(manga_id_filename_lst) {
     const supabase = createClient();
-    var { data, error } = await supabase
-        .from('manga_info')
-        .select()
+    var { data, error } = await supabase.from('manga_info').select()
     // Below is applied to ALL entries
     for (const entry_idx in data) {
         let manga_entry = data[entry_idx];

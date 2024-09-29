@@ -37,7 +37,8 @@ export default function MyComponent() {
         method: 'GET', // You can also use GET depending on your API's requirement
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        credentials: "include"
       });
       const data = await response.json();
       if (response.ok) {
