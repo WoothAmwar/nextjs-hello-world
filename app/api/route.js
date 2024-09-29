@@ -207,16 +207,21 @@ const filter_manga_info = (total_data) => {
 
 
 
-// export async function GET(req) {
-//     try {
-//         await performTask(req);
-//         // task was successful, respond with 200
-//         return Response.json({ status: 200 });
-//     } catch (err) {
-//         // task failed, respond with 500 so Mergent will retry
-//         return Response.json({ status: 500 });
-//     }
-// }
+export async function GET(req) {
+    try {
+        const user_id = "cf7db398-d339-4948-9a18-f7643d9a4c56";
+        const supabase = createClient();
+        const { data, error } = await supabase
+            .from('token_info')
+            .select();
+        const token_info = data[0];
+        // task was successful, respond with 200
+        return Response.json({ status: 200, token_info: Object.keys(token_info), supa_error: error });
+    } catch (err) {
+        // task failed, respond with 500 so Mergent will retry
+        return Response.json({ status: 500 });
+    }
+}
 
 export async function POST(req) {
     try {
