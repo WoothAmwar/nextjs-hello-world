@@ -220,8 +220,8 @@ const filter_manga_info = (total_data) => {
 
 export async function POST(req) {
     try {
-        // const task_message = await performTask();
-        const task_message = "Would never do that";
+        const task_message = await performTask();
+        // const task_message = "Would never do that";
         // task was successful, respond with 200
         return Response.json({ status: 200, message: task_message });
     } catch (err) {
