@@ -5,16 +5,17 @@ export async function updateSession(request) {
   let supabaseResponse = NextResponse.next({
     request,
   })
-
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
+          console.log("SURELY GETTING;", request.cookies.getAll());
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
+          console.log("SURELY SETTING");
           cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
@@ -41,6 +42,7 @@ export async function updateSession(request) {
     !request.nextUrl.pathname.startsWith('/auth')
   ) {
     // no user, potentially respond by redirecting the user to the login page
+    console.log("NO USER");
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)

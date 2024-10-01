@@ -4,10 +4,17 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div>
-      Hello World.{" "}
-      <Link href="/random">
-        About
-      </Link>
+      <p>Hello There Fellow API User</p>
+      <div>
+        <Link href="/random">
+          About
+        </Link>
+      </div>
+      <div>
+        <Link href="/login">
+          Login
+        </Link>
+      </div>
     </div>
   );
 }
