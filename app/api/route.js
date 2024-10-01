@@ -1,4 +1,5 @@
-import { createClient } from '../../utils/supabase/server';
+// import { createClient } from '../../utils/supabase/server';
+import { createClient } from "@supabase/supabase-js";
 import { RateLimit } from "async-sema";
 
 const limit = RateLimit(4);
@@ -37,7 +38,8 @@ async function refresh_access_token(prev_refresh_token, manga_client_id, manga_c
 };
 
 async function write_tokens(user_id, access_token, refresh_token) {
-    const supabase = createClient();
+    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
     const { error } = await supabase
         .from('token_info')
         .update({
@@ -147,7 +149,8 @@ async function get_unread_mangas(access_token, total_matched_manga) {
 }
 
 async function write_unread(manga_id_filename_lst) {
-    const supabase = createClient();
+    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
     var { data, error } = await supabase.from('manga_info').select()
     // Below is applied to ALL entries
     for (const entry_idx in data) {
@@ -208,7 +211,8 @@ const filter_manga_info = (total_data) => {
 export async function GET(req) {
     try {
         const user_id = "cf7db398-d339-4948-9a18-f7643d9a4c56";
-        const supabase = createClient();
+        const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
         const { data, error } = await supabase
             .from('token_info')
             .select();
@@ -245,7 +249,8 @@ async function performTask() {
     //           });
     //       }
     const user_id = "cf7db398-d339-4948-9a18-f7643d9a4c56";
-    const supabase = createClient();
+    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
     const { data, error } = await supabase
         .from('token_info')
         .select()

@@ -15,6 +15,11 @@ export default function Home() {
           Login
         </Link>
       </div>
+      <div>
+        <Link href="/idk_names">
+          YESSS
+        </Link>
+      </div>
     </div>
   );
 }

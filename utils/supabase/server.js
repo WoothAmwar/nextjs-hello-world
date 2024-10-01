@@ -12,13 +12,11 @@ export function createClient() {
     {
       cookies: {
         getAll() {
-          console.log("I GOT:", cookieStore.getAll());
           return cookieStore.getAll()
         },
         setAll(cookiesToSet) {
-          console.log("SETTING:", cookiesToSet);
           try {
-            console.log('Cookies to set:', cookiesToSet) // Logging for debugging
+            // console.log('Cookies to set:', cookiesToSet) // Logging for debugging
             // cookiesToSet.forEach(({ name, value, options }) =>
             //   cookieStore.set(name, value, {
             //     ...options,
