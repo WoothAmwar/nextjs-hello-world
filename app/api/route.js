@@ -7,7 +7,7 @@ const limit = RateLimit(4);
 async function refresh_access_token(prev_refresh_token, manga_client_id, manga_client_secret) {
     const url =
         "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token";
-    const data = new URLSearchParams({
+    const refresh_data = new URLSearchParams({
         grant_type: "refresh_token",
         refresh_token: prev_refresh_token.toString(),
         client_id: manga_client_id,
@@ -20,10 +20,10 @@ async function refresh_access_token(prev_refresh_token, manga_client_id, manga_c
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
-            body: data,
+            body: refresh_data,
         })
         if (!response.ok) {
-            console.log("DTA:", data);
+            console.log("DTA:", refresh_data);
             console.log("RES:", response);
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -31,9 +31,35 @@ async function refresh_access_token(prev_refresh_token, manga_client_id, manga_c
         return [raw_data["access_token"], raw_data["refresh_token"]];
 
     } catch (error) {
-        console.log("Error:", error);
-        console.log("NO GO");
+        console.log("ERROR USING REFRESH, GETTING NEW TOKENS");
+        try {
+            const new_token_data = new URLSearchParams({
+                grant_type: "password",
+                client_id: manga_client_id,
+                client_secret: manga_client_secret,
+                username: process.env.MANGADEX_USERNAME,
+                password: process.env.MANGADEX_PASSWORD
+            });
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new_token_data,
+            })
+            if (!response.ok) {
+                console.log("DTA 2:", refresh_data);
+                console.log("RES 2:", response);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const raw_data = await response.json();
+            return [raw_data["access_token"], raw_data["refresh_token"]];
+        }
+        catch (complete_error) {
+            console.log("FULL Error:", complete_error);
+            console.log("NO GO");
         return;
+        }
     }
 };
 
@@ -209,6 +235,7 @@ const filter_manga_info = (total_data) => {
 
 
 export async function GET(req) {
+    console.log("DOING THE GET");
     try {
         const user_id = "cf7db398-d339-4948-9a18-f7643d9a4c56";
         const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,

@@ -1,6 +1,10 @@
 "use client"
 import { useState } from 'react';
-
+// const cron = require("node-cron");
+// cron.schedule('37 8 * * *', async() => {
+//   console.log("DID THAT THING AT 8:15-5");
+//   callApi();
+// })
 export default function MyComponent() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -10,7 +14,8 @@ export default function MyComponent() {
     setLoading(true);
     try {
       const response = await fetch('/api', {
-        method: 'POST', // You can also use GET depending on your API's requirement
+        method: 'POST', // You can also use GET depending on your API's requirement 
+        // WHY THO
         headers: {
           'Content-Type': 'application/json',
         },
@@ -64,6 +69,7 @@ export default function MyComponent() {
       </button>
       {message && <p>{message}</p>}
       {getMessage && <p>{getMessage}</p>}
+      <p>Updates Everyday at 21:45 UTC = 4:45 Chicago = 5:45 EST</p>
     </div>
   );
 }
